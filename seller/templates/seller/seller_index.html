@@ -1,5 +1,13 @@
 {% extends 'base.html' %}
-
+{% block extra-style %}
+<style>
+.food-image {
+    width: 100%;   /* 이미지를 카드의 너비에 맞춤 */
+    height: 200px; /* 이미지의 높이를 200px로 고정 */
+    object-fit: cover; /* 이미지 비율을 유지하면서 해당 영역을 완전히 채움 */
+}
+</style>
+{% endblock %}
 {% block content %}
 <h1>{{user}}의 샵입니다!</h1>
 

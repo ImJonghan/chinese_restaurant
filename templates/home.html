@@ -1,1 +1,33 @@
 {% extends 'base.html' %}
+{% block extra-style %}
+<style>
+.food-image {
+    width: 100%;   /* 이미지를 카드의 너비에 맞춤 */
+    height: 200px; /* 이미지의 높이를 200px로 고정 */
+    object-fit: cover; /* 이미지 비율을 유지하면서 해당 영역을 완전히 채움 */
+}
+</style>
+{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <h3>음식</h3>
+        <div class="row">
+
+        {% for food in object_list %}
+            <div class="col-sm-6 col-md-4 mb-4">
+                <div class="card">
+                    <a href="{% url 'order:order_detail' pk=food.id %}">
+                        <img src="{{ food.image_url }}" class="card-img-top food-image" alt="{{ food.name }}">
+                        <div class="card-body row">
+                            <h5 class="card-title">{{ food.name }}</h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
