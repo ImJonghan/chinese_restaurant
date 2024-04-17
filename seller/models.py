@@ -9,5 +9,5 @@ class Food(models.Model):
     user=models.ForeignKey(User, on_delete=models.CASCADE) # 상품 판매자
     name=models.CharField(max_length=20)
     price = models.IntegerField()
-    description=models.TimeField()
+    description=models.TextField()
     image_url=models.URLField()

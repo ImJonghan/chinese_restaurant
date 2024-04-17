@@ -1,4 +1,6 @@
-<h1>Seller Index Page</h1>
+{% extends 'base.html' %}
+
+{% block content %}
 <h1>{{user}}의 샵입니다!</h1>
 
 <div class="row">
@@ -21,6 +23,7 @@
     </div>
 
     <div class="d-flex justify-content-end mb-3">
-        <a href="#" class="btn btn-primary">제품 등록</a>
+        <a href="{% url 'seller:add_food' %}" class="btn btn-primary">제품 등록</a>
     </div>
 </div>
+{% endblock %}
