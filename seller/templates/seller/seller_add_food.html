@@ -1,3 +1,6 @@
+{% extends 'base.html' %}
+
+{% block content %}
 <h1>{{user}} 님의 상품 등록 페이지</h1>
 
 <form action="" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
@@ -24,3 +27,4 @@
         <input type="submit" value="제출" class="btn btn-success">
     </div>
 </form>
+{% endblock %}
