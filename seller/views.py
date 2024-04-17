@@ -18,6 +18,7 @@ def seller_index(request):
     }
     return render(request, 'seller/seller_index.html', context)
 
+@login_required
 def add_food(request):
     # get
     if request.method=='GET':
@@ -43,7 +44,8 @@ def add_food(request):
 
         # food_name, price, description
         return redirect('seller:seller_index')
-    
+
+@login_required
 def food_detail(request, pk): # detail 화면은 pk를 받아야 되고, object(하나의 데이터 덩어리, 자장면 하나)를 전달
     object = Food.objects.get(pk=pk)
     context = {
@@ -51,6 +53,7 @@ def food_detail(request, pk): # detail 화면은 pk를 받아야 되고, object(
     }
     return render(request, 'seller/seller_food_detail.html', context)
 
+@login_required
 def food_delete(request, pk):
     object = Food.objects.get(pk=pk)
     object.delete()
