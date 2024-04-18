@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from seller.models import Food
 from .models import Cart
+from django.db.models import Sum
 # Create your views here.
 def order_detail(request, pk):
     food = Food.objects.get(pk=pk)
@@ -24,10 +25,15 @@ def modify_cart(request):
     cart.amount += int(request.POST['amountChange'])
     if cart.amount>0:
         cart.save()
+    # "user"가 카트에 담은(cart)한 전체 음식(개별 개수 amount) 개수
+    # Qusetion - Choice
+    # 이 문제에 대한 초이스
+    # question.choice_set
+    totalQuantity = user.cart_set.aggregate(totalcount=Sum('amount'))['totalcount']
     # Json
     context = {
         'newQuantity' : cart.amount,
-        'totalQuantity' : cart.amount,
+        'totalQuantity' : totalQuantity,
         'message':'성공',
         'success':True
     }

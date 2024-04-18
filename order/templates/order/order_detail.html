@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
+<!-- 변경영역 -->
 <div>
     <a href="#" class="btn btn-primary">
     장바구니 <span class="badge bg-secondary"><span id="totalQuantity"></span></span>
 </a>
 </div>
+<!-- 변경영역 -->
 <div class="container mt-5">
 <div class="row">
 <div class="col-md-6">
@@ -22,7 +24,7 @@
 <button type="button" onclick="modifyCartAmount({{object.id}}, 1)" class="btn btn-danger">담기</button>
 <button type="button" onclick="modifyCartAmount({{object.id}}, -1)" class="btn btn-success">빼기</button>
 <button type="button" class="btn btn-primary">
-선택수량 <span class="badge bg-secondary"><span id="currentQuantity">0</span></span>
+선택수량 <span class="badge bg-secondary"><span id="currentQuantity"></span></span>
 </button>
 </div>
 
@@ -35,7 +37,7 @@ return document.getElementById('csrfToken').value;
 }
 function modifyCartAmount(food_id, change){
 var xhr = new XMLHttpRequest();
-    xhr.open('POST', '{% url "order:modify_cart" %}', true);
+    xhr.open('POST', '{% url "order:modify_cart" %}', true); // 확인 : 이전 -> customer:modify_cart
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.setRequestHeader('X-CSRFToken', getCsrfToken());
 
@@ -43,7 +45,9 @@ var xhr = new XMLHttpRequest();
         if (this.status === 200) {
             var response = JSON.parse(this.responseText);
             document.getElementById('currentQuantity').textContent = response.newQuantity;
-            document.getElementById('totalQuantity').textContent = response.totalQuantity;
+            
+            document.getElementById('totalQuantity').textContent = response.totalQuantity;// 추가
+         
             console.log('Update successful:', response.message);
         } else {
             console.error('Error updating:', this.statusText);
