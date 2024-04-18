@@ -1,1 +1,56 @@
-<h1>Order Detail</h1>
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    <a href="#" class="btn btn-primary">
+    장바구니 <span class="badge bg-secondary"><span id="totalQuantity"></span></span>
+</a>
+</div>
+<div class="container mt-5">
+<div class="row">
+<div class="col-md-6">
+    <img src="{{ object.image_url }}" alt="{{ object.name }}" class="product-image">
+</div>
+<div class="col-md-6 info-section">
+    <h2>{{ object.name }}</h2>
+    <h3 class="text-muted">{{ object.price }}원</h3>
+    <p>{{ object.description }}</p>
+</div>
+</div>
+</div>
+<div  class="container">
+<input type="hidden" id="csrfToken" value="{{csrf_token}}">
+<button type="button" onclick="modifyCartAmount({{object.id}}, 1)" class="btn btn-danger">담기</button>
+<button type="button" onclick="modifyCartAmount({{object.id}}, -1)" class="btn btn-success">빼기</button>
+<button type="button" class="btn btn-primary">
+선택수량 <span class="badge bg-secondary"><span id="currentQuantity">0</span></span>
+</button>
+</div>
+
+<!-- Bootstrap JS with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+function getCsrfToken(){
+return document.getElementById('csrfToken').value;
+}
+function modifyCartAmount(food_id, change){
+var xhr = new XMLHttpRequest();
+    xhr.open('POST', '{% url "order:modify_cart" %}', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('X-CSRFToken', getCsrfToken());
+
+    xhr.onload = function() {
+        if (this.status === 200) {
+            var response = JSON.parse(this.responseText);
+            document.getElementById('currentQuantity').textContent = response.newQuantity;
+            document.getElementById('totalQuantity').textContent = response.totalQuantity;
+            console.log('Update successful:', response.message);
+        } else {
+            console.error('Error updating:', this.statusText);
+        }
+    };
+
+    xhr.send(`foodId=${food_id}&amountChange=${change}`);
+}
+</script>
+{% endblock %}
